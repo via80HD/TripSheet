@@ -208,11 +208,20 @@
   const reader = new FileReader();
   reader.onload = function(e) {
     const data = JSON.parse(e.target.result);
+
+    // Step 1: auto-create stop rows if needed
+    const stopKeys = Object.keys(data).filter(k => k.startsWith("stop"));
+    const maxStop = Math.max(...stopKeys.map(k => parseInt(k.match(/\d+/)?.[0] || 1)));
+    const table = document.getElementById('stops-table');
+    while (table.rows.length - 1 < maxStop) { // -1 because header row
+      addStopRow();
+    }
+
+    // Step 2: set all field values
     for (const key in data) {
       const el = document.querySelector(`[name="${key}"]`);
       if (el) {
         el.value = data[key];
-        el.dispatchEvent(new Event('input')); // 👈 Forces visual refresh
       }
     }
   };
