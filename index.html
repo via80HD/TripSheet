@@ -174,20 +174,31 @@
   }
 
   function saveAsImage() {
-  document.querySelectorAll('input, textarea').forEach(el => {
-    el.value = el.value.toUpperCase();
-  });
-  setTimeout(() => {
-    const element = document.getElementById('report');
-    html2canvas(element, { scale: 2 }).then(canvas => {
-      const link = document.createElement('a');
-      link.download = 'trip-report.png';
-      link.href = canvas.toDataURL();
-      link.click();
+    document.querySelectorAll('input, textarea').forEach(el => {
+      el.value = el.value.toUpperCase();
     });
-  }, 100); // 100ms delay
-}
-  
+
+    setTimeout(() => {
+      const element = document.getElementById('report');
+      element.style.display = 'block';
+
+      html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: false,
+        logging: false
+      }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'trip-report.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      }).catch(err => {
+        alert("Image export failed. Try refreshing or retyping manually.");
+        console.error("html2canvas error:", err);
+      });
+    }, 200);
+  }
+
   function saveAsJSON() {
     const inputs = document.querySelectorAll('input, textarea');
     const data = {};
@@ -201,39 +212,7 @@
     link.click();
   }
 
- function loadFromJSON() {
-  const fileInput = document.getElementById('jsonLoader');
-  const file = fileInput.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const data = JSON.parse(e.target.result);
-
-    // Count how many stop rows are needed
-    const stopKeys = Object.keys(data).filter(key => key.startsWith('stop'));
-    const stopNumbers = [...new Set(stopKeys.map(k => k.match(/^stop(\d+)/)?.[1]))];
-    const currentRows = document.querySelectorAll('#stops-table tr').length - 1;
-    const neededRows = Math.max(...stopNumbers.map(n => parseInt(n)));
-
-    // Add missing stop rows
-    for (let i = currentRows; i < neededRows; i++) {
-      addStopRow();
-    }
-
-    // Fill in all fields
-    for (const key in data) {
-      const el = document.querySelector(`[name="${key}"]`);
-      if (el) {
-        el.value = data[key];
-        el.dispatchEvent(new Event('input'));
-      }
-    }
-  };
-
-  reader.readAsText(file);
- }
-</script>
-
-</body>
-</html>
+  function loadFromJSON() {
+    const fileInput = document.getElementById('jsonLoader');
+    const file = fileInput.files[0];
+    if (!file
