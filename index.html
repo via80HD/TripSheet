@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" crossorigin="anonymous">
 <head>
   <meta charset="UTF-8">
   <title>Trip Report Form</title>
@@ -177,14 +177,17 @@
   document.querySelectorAll('input, textarea').forEach(el => {
     el.value = el.value.toUpperCase();
   });
-  const element = document.getElementById('report');
-  html2canvas(element, { scale: 2 }).then(canvas => {
-    const link = document.createElement('a');
-    link.download = 'trip-report.png';
-    link.href = canvas.toDataURL();
-    link.click();
-  });
+  setTimeout(() => {
+    const element = document.getElementById('report');
+    html2canvas(element, { scale: 2 }).then(canvas => {
+      const link = document.createElement('a');
+      link.download = 'trip-report.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    });
+  }, 100); // 100ms delay
 }
+  
   function saveAsJSON() {
     const inputs = document.querySelectorAll('input, textarea');
     const data = {};
