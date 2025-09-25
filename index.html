@@ -1,1 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Trip Report Form</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inconsolata&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    body {
+      font-family: 'Inconsolata', monospace;
+      margin: 20px;
+      background: #f9f9f9;
+      color: #222;
+    }
+    h1, h2 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      background: #fff;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 6px 8px;
+      text-align: left;
+    }
+    th {
+      background: #eee;
+    }
+    input, textarea {
+      width: 100%;
+      box-sizing: border-box;
+      font-family: inherit;
+      font-size: 14px;
+      padding: 4px;
+      border: 1px solid #aaa;
+      background: #fcfcfc;
+    }
+    textarea {
+      resize: vertical;
+    }
+    .section {
+      margin-bottom: 30px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      font-family: inherit;
+      cursor: pointer;
+      background: #333;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+    }
+    button:hover {
+      background: #555;
+    }
+  </style>
+</head>
+<body>
 
+  <div id="report">
+    <h1>BRADEN RESHEL</h1>
+
+    <div class="section">
+      <h2>Trip Details</h2>
+      <table>
+        <tr><th>Trip Date</th><td><input type="date"></td></tr>
+        <tr><th>Trip ID</th><td><input type="text"></td></tr>
+        <tr><th>Van ID</th><td><input type="text"></td></tr>
+        <tr><th>RR #</th><td><input type="text"></td></tr>
+        <tr><th>Dispatcher</th><td><input type="text"></td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Stops with Crew</h2>
+      <table>
+        <tr>
+          <th>Time</th><th>Location</th><th>Loc. Code</th><th>Loc. ID</th><th>Van Type</th><th># PAX</th>
+        </tr>
+        <tr>
+          <td><input type="text"></td><td><input type="text"></td><td><input type="text"></td>
+          <td><input type="text"></td><td><input type="text"></td><td><input type="number"></td>
+        </tr>
+        <!-- Add more rows as needed -->
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Crew Members</h2>
+      <textarea rows="4" placeholder="List crew members by location..."></textarea>
+    </div>
+
+    <div class="section">
+      <h2>Notes / Approvals</h2>
+      <textarea rows="4" placeholder="Enter notes or approvals..."></textarea>
+    </div>
+
+    <div class="section">
+      <h2>Drop Crew Info</h2>
+      <table>
+        <tr><th>Drop Time</th><td><input type="text"></td></tr>
+        <tr><th>Drop Location</th><td><input type="text"></td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>End of Shift Stats</h2>
+      <table>
+        <tr>
+          <th>Van P/U Time</th><th>Van P/U Odometer</th><th>Van Drop Time</th><th>Van Drop Odometer</th><th>Total Miles</th>
+        </tr>
+        <tr>
+          <td><input type="text"></td><td><input type="number"></td>
+          <td><input type="text"></td><td><input type="number"></td><td><input type="number"></td>
+        </tr>
+      </table>
+      <p><em>* Van P/U Time is the time the van got back to base after being completely done with driving in the trip from drop location (with stop) & filling up & cleaning out the van once done.</em></p>
+    </div>
+  </div>
+
+  <div style="text-align:center;">
+    <button onclick="downloadPDF()">Save as PDF</button>
+  </div>
+
+  <script>
+    function downloadPDF() {
+      const element = document.getElementById('report');
+      html2pdf().from(element).save('trip-report.pdf');
+    }
+  </script>
+
+</body>
+</html>
