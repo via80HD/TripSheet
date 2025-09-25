@@ -154,9 +154,8 @@
 
 <div style="text-align:center;">
   <button onclick="saveAsImage()">Save as Image</button>
-  <button onclick="saveAsJSON()">Save as JSON</button>
-  <input type="file" id="jsonLoader" accept=".json" onchange="loadFromJSON()" style="display:none;">
-  <button onclick="document.getElementById('jsonLoader').click()">Load JSON</button>
+  <button onclick="saveToLocal()">Save Draft</button>
+  <button onclick="loadFromLocal()">Load Draft</button>
 </div>
 
 <script>
@@ -174,45 +173,54 @@
   }
 
   function saveAsImage() {
-    document.querySelectorAll('input, textarea').forEach(el => {
-      el.value = el.value.toUpperCase();
+  document.querySelectorAll('input, textarea').forEach(el => {
+    el.value = el.value.toUpperCase();
+  });
+
+  setTimeout(() => {
+    const element = document.getElementById('report');
+    element.style.display = 'block';
+
+    html2canvas(element, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: false,
+      logging: false
+    }).then(canvas => {
+      // Get current date in YYYYMMDD format
+      const now = new Date();
+      const yyyy = now.getFullYear();
+      const mm = String(now.getMonth() + 1).padStart(2, '0');
+      const dd = String(now.getDate()).padStart(2, '0');
+      const datePrefix = `${yyyy}${mm}${dd}`;
+
+      // Prompt for custom suffix
+      const suffix = prompt("Enter your 4-character code (XXXX):", "0000") || "0000";
+      const filename = `${datePrefix}${suffix}.png`;
+
+      const link = document.createElement('a');
+      link.download = filename;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }).catch(err => {
+      alert("Image export failed. Try refreshing or retyping manually.");
+      console.error("html2canvas error:", err);
     });
+  }, 200);
+}
 
-    setTimeout(() => {
-      const element = document.getElementById('report');
-      element.style.display = 'block';
-
-      html2canvas(element, {
-        scale: 2,
-        useCORS: true,
-        allowTaint: false,
-        logging: false
-      }).then(canvas => {
-        const link = document.createElement('a');
-        link.download = 'trip-report.png';
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-      }).catch(err => {
-        alert("Image export failed. Try refreshing or retyping manually.");
-        console.error("html2canvas error:", err);
-      });
-    }, 200);
-  }
-
-  function saveAsJSON() {
+  function saveToLocal() {
     const inputs = document.querySelectorAll('input, textarea');
     const data = {};
     inputs.forEach(el => {
       if (el.name) data[el.name] = el.value;
     });
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const link = document.createElement('a');
-    link.download = 'trip-report.json';
-    link.href = URL.createObjectURL(blob);
-    link.click();
+    localStorage.setItem('tripReportDraft', JSON.stringify(data));
+    alert("Draft saved locally.");
   }
 
-  function loadFromJSON() {
-    const fileInput = document.getElementById('jsonLoader');
-    const file = fileInput.files[0];
-    if (!file
+  function loadFromLocal() {
+    const data = JSON.parse(localStorage.getItem('tripReportDraft') || '{}');
+
+    const stopKeys = Object.keys(data).filter(key => key.startsWith('stop'));
+    const stopNumbers = [...new Set(stopKeys.map(k => k.match(/^stop(\d+)/)?.[1]))];
