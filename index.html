@@ -4,51 +4,46 @@
   <meta charset="UTF-8">
   <title>Trip Report Form</title>
   <link href="https://fonts.googleapis.com/css2?family=Inconsolata&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     body {
       font-family: 'Inconsolata', monospace;
-      margin: 20px;
       background: #f9f9f9;
       color: #222;
-    }
-    h1, h2 {
+      margin: 20px;
       text-align: center;
-      margin-bottom: 10px;
     }
     table {
-      width: 100%;
+      margin: 0 auto 20px auto;
       border-collapse: collapse;
-      margin-bottom: 20px;
+      width: 90%;
       background: #fff;
     }
     th, td {
       border: 1px solid #ccc;
-      padding: 6px 8px;
-      text-align: left;
-    }
-    th {
-      background: #eee;
+      padding: 6px 10px;
+      text-align: center;
     }
     input, textarea {
       width: 100%;
-      box-sizing: border-box;
       font-family: inherit;
       font-size: 14px;
       padding: 4px;
       border: 1px solid #aaa;
       background: #fcfcfc;
+      box-sizing: border-box;
     }
     textarea {
       resize: vertical;
     }
-    .section {
-      margin-bottom: 30px;
+    hr {
+      margin: 30px auto;
+      width: 80%;
     }
     button {
-      padding: 10px 20px;
-      font-size: 16px;
       font-family: inherit;
+      font-size: 14px;
+      padding: 6px 12px;
+      margin: 10px;
       cursor: pointer;
       background: #333;
       color: #fff;
@@ -62,78 +57,93 @@
 </head>
 <body>
 
-  <div id="report">
-    <h1>BRADEN RESHEL</h1>
+  <table>
+    <tr><th>Driver Name</th></tr>
+    <tr><td><input type="text"></td></tr>
+  </table>
 
-    <div class="section">
-      <h2>Trip Details</h2>
-      <table>
-        <tr><th>Trip Date</th><td><input type="date"></td></tr>
-        <tr><th>Trip Type</th><td><input type="text"></td></tr>
-        <tr><th>Van ID</th><td><input type="text"></td></tr>
-        <!-- add new table -->
-        <tr><th>RR #</th><td><input type="text"></td></tr>
-        <tr><th>Halcon #</th><td><input type="text"></td></tr>
-        <!-- add new table -->
-        <tr><th>Crew Name(s)</th><td><input type="date"></td></tr>
-        <tr><th>Location</th><td><input type="date"></td></tr>
-        <tr><th>Disp. #</th><td><input type="text"></td></tr>
-      </table>
-    </div>
+  <table>
+    <tr><th>Trip Date</th><th>Trip Type</th><th>Van ID</th></tr>
+    <tr>
+      <td><input type="date"></td>
+      <td><input type="text"></td>
+      <td><input type="text"></td>
+    </tr>
+  </table>
 
-    <div class="section">
-      <h2>Stops with Crew</h2>
-      <!-- if possible, add button for add new row? -->
-      <table>
-        <tr>
-          <th>Stop #</th><th>Time</th><th>Location</th><th>Odometer</th><th>Why?</th><th>Minutes</th>
-        </tr>
-        <tr>
-          <td><input type="text"></td><td><input type="text"></td><td><input type="text"></td>
-          <td><input type="text"></td><td><input type="text"></td><td><input type="number"></td>
-        </tr>
-        <!-- Add more rows as needed -->
-      </table>
-    </div>
+  <table>
+    <tr><th>RR #</th><th>Hallcon #</th></tr>
+    <tr>
+      <td><input type="text"></td>
+      <td><input type="text"></td>
+    </tr>
+  </table>
 
-    <div class="section">
-      <h2>Notes / Approvals</h2>
-      <textarea rows="4" placeholder="Enter notes or approvals..."></textarea>
-    </div>
+  <table>
+    <tr><th>Name(s)</th><th>To?</th><th>Disp #</th></tr>
+    <tr>
+      <td><input type="text"></td>
+      <td><input type="text"></td>
+      <td><input type="text"></td>
+    </tr>
+  </table>
 
-    <div class="section">
-      <h2>Drop Crew Info</h2>
-      <table>
-        <tr><th>Drop Time</th><td><input type="text"></td></tr>
-        <tr><th>Drop Odometer</th><td><input type="text"></td></tr>
-        <tr><th>Total Wait</th><td><input type="text"></td></tr>
-        <tr><th>Total Miles</th><td><input type="text"></td></tr>
-      </table>
-    </div>
+  <hr>
 
-    <div class="section">
-      <h2>End of Shift Stats</h2>
-      <table>
-        <tr>
-          <th>Van P/U Time</th><th>Van P/U Odometer</th><th>Van Drop Time</th><th>Van Drop Odometer</th>
-        </tr>
-        <tr>
-          <td><input type="text"></td><td><input type="number"></td>
-          <td><input type="text"></td><td><input type="number"></td><td><input type="number"></td>
-        </tr>
-      </table>
-      <p><em>* Van P/U Time is the time the van got back to base after being completely done with driving in the trip from drop location (with stop) & filling up & cleaning out the van once done.</em></p>
-    </div>
-  </div>
+  <h3>Stops With Crew</h3>
+  <table id="stops-table">
+    <tr><th>Stop #</th><th>Location</th><th>Odometer</th><th>Why?</th><th>Mins</th></tr>
+    <tr>
+      <td><input type="text"></td>
+      <td><input type="text"></td>
+      <td><input type="text"></td>
+      <td><input type="text"></td>
+      <td><input type="text"></td>
+    </tr>
+  </table>
+  <button onclick="addStopRow()">Add Stop Row</button>
 
-  <div style="text-align:center;">
-    <button onclick="downloadPDF()">Save as PDF</button>
-  </div>
+  <table>
+    <tr><th>Notes / Approvals</th></tr>
+    <tr><td><textarea rows="4" placeholder="Big paragraph size text field..."></textarea></td></tr>
+  </table>
+
+  <h3>Crew Drop Section</h3>
+  <table>
+    <tr><th>Drop Crew Time</th><th>Drop Crew Odo</th></tr>
+    <tr>
+      <td><input type="text"></td>
+      <td><input type="text"></td>
+    </tr>
+    <tr><th>Total Wait</th><th>Total Miles</th></tr>
+    <tr>
+      <td><input type="text"></td>
+      <td><input type="text"></td>
+    </tr>
+  </table>
+
+  <h3>End Of Shift Section</h3>
+  <table>
+    <tr><th>Van PU Time</th><th>Van PU Odo</th></tr>
+    <tr>
+      <td><input type="text"></td>
+      <td><input type="text"></td>
+    </tr>
+    <tr><th>Van DO Time</th><th>Van DO Odo</th></tr>
+    <tr>
+      <td><input type="text"></td>
+      <td><input type="text"></td>
+    </tr>
+  </table>
 
   <script>
-    function downloadPDF() {
-      const element = document.getElementById('report');
-      html2pdf().from(element).save('trip-report.pdf');
+    function addStopRow() {
+      const table = document.getElementById('stops-table');
+      const row = table.insertRow(-1);
+      for (let i = 0; i < 5; i++) {
+        const cell = row.insertCell(i);
+        cell.innerHTML = '<input type="text">';
+      }
     }
   </script>
 
