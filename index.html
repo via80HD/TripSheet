@@ -103,14 +103,13 @@
 
   <h3>Stops With Crew</h3>
   <table id="stops-table">
-    <tr><th>Stop #</th><th>Times</th><th>Location</th><th>Odometer</th><th>Why?</th><th>Mins</th></tr>
+    <tr><th>Times</th><th>Location</th><th>Odometer</th><th>Why?</th><th>Wait</th></tr>
     <tr>
-      <td><input type="text"></td>
-      <td><input type="text" placeholder="e.g. 1900–1945"></td>
-      <td><input type="text"></td>
-      <td><input type="text"></td>
-      <td><input type="text"></td>
-      <td><input type="text"></td>
+      <td><input type="text" style="min-width: 90px;" placeholder="0800–0845"></td>
+      <td><input type="text" style="min-width: 150px;" placeholder="THE CROSSING"></td>
+      <td><input type="text" style="min-width: 70px;" placeholder="123456"></td>
+      <td><input type="text" style="min-width: 50px;" placeholder="FL"></td>
+      <td><input type="text" style="min-width: 50px;" placeholder="6"></td>
     </tr>
   </table>
   <button onclick="addStopRow()">Add Stop Row</button>
@@ -157,9 +156,11 @@
   function addStopRow() {
     const table = document.getElementById('stops-table');
     const row = table.insertRow(-1);
-    for (let i = 0; i < 6; i++) {
+    const widths = [90, 150, 70, 50, 50];
+    const placeholders = ["0800–0845", "THE CROSSING", "123456", "FL", "6"];
+    for (let i = 0; i < 5; i++) {
       const cell = row.insertCell(i);
-      cell.innerHTML = '<input type="text">';
+      cell.innerHTML = `<input type="text" style="min-width:${widths[i]}px;" placeholder="${placeholders[i]}">`;
     }
   }
 
