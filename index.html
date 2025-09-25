@@ -5,7 +5,7 @@
   <title>Trip Report Form</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Inconsolata&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     body {
       font-family: 'Inconsolata', monospace;
@@ -30,12 +30,13 @@
       width: 100%;
       font-family: inherit;
       font-size: 16px;
-      padding: 6px;
+      padding: 6px 10px;
       border: 1px solid #aaa;
       background: #fcfcfc;
       box-sizing: border-box;
       text-align: center;
       text-transform: uppercase;
+      overflow: visible;
     }
     textarea {
       resize: vertical;
@@ -105,7 +106,7 @@
     <tr><th>Stop #</th><th>Times</th><th>Location</th><th>Odometer</th><th>Why?</th><th>Mins</th></tr>
     <tr>
       <td><input type="text"></td>
-      <td><input type="text" placeholder="e.g. 2130–2200"></td>
+      <td><input type="text" placeholder="e.g. 1900–1945"></td>
       <td><input type="text"></td>
       <td><input type="text"></td>
       <td><input type="text"></td>
@@ -149,7 +150,7 @@
 </div>
 
 <div style="text-align:center;">
-  <button onclick="downloadPDF()">Save as PDF</button>
+  <button onclick="saveAsImage()">Save as Image</button>
 </div>
 
 <script>
@@ -162,17 +163,16 @@
     }
   }
 
-  function downloadPDF() {
+  function saveAsImage() {
     const element = document.getElementById('report');
-    html2pdf().set({
-      margin: 0.5,
-      filename: 'trip-report.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-    }).from(element).save();
+    html2canvas(element, { scale: 2 }).then(canvas => {
+      const link = document.createElement('a');
+      link.download = 'trip-report.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    });
   }
 </script>
 
 </body>
-  </html>
+</html>
