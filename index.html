@@ -3,31 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <title>Trip Report Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Inconsolata&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     body {
       font-family: 'Inconsolata', monospace;
       background: #f9f9f9;
       color: #222;
-      margin: 20px;
+      margin: 10px;
       text-align: center;
     }
     table {
       margin: 0 auto 20px auto;
       border-collapse: collapse;
-      width: 90%;
+      width: 95%;
       background: #fff;
     }
     th, td {
       border: 1px solid #ccc;
-      padding: 6px 10px;
+      padding: 10px;
       text-align: center;
+      font-size: 16px;
     }
     input, textarea {
       width: 100%;
       font-family: inherit;
-      font-size: 14px;
-      padding: 4px;
+      font-size: 16px;
+      padding: 6px;
       border: 1px solid #aaa;
       background: #fcfcfc;
       box-sizing: border-box;
@@ -37,115 +40,13 @@
     }
     hr {
       margin: 30px auto;
-      width: 80%;
+      width: 90%;
     }
     button {
       font-family: inherit;
-      font-size: 14px;
-      padding: 6px 12px;
+      font-size: 16px;
+      padding: 8px 16px;
       margin: 10px;
       cursor: pointer;
       background: #333;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-    }
-    button:hover {
-      background: #555;
-    }
-  </style>
-</head>
-<body>
-
-  <table>
-    <tr><th>Driver Name</th></tr>
-    <tr><td><input type="text"></td></tr>
-  </table>
-
-  <table>
-    <tr><th>Trip Date</th><th>Trip Type</th><th>Van ID</th></tr>
-    <tr>
-      <td><input type="date"></td>
-      <td><input type="text"></td>
-      <td><input type="text"></td>
-    </tr>
-  </table>
-
-  <table>
-    <tr><th>RR #</th><th>Hallcon #</th></tr>
-    <tr>
-      <td><input type="text"></td>
-      <td><input type="text"></td>
-    </tr>
-  </table>
-
-  <table>
-    <tr><th>Name(s)</th><th>To?</th><th>Disp #</th></tr>
-    <tr>
-      <td><input type="text"></td>
-      <td><input type="text"></td>
-      <td><input type="text"></td>
-    </tr>
-  </table>
-
-  <hr>
-
-  <h3>Stops With Crew</h3>
-  <table id="stops-table">
-    <tr><th>Stop #</th><th>Location</th><th>Odometer</th><th>Why?</th><th>Mins</th></tr>
-    <tr>
-      <td><input type="text"></td>
-      <td><input type="text"></td>
-      <td><input type="text"></td>
-      <td><input type="text"></td>
-      <td><input type="text"></td>
-    </tr>
-  </table>
-  <button onclick="addStopRow()">Add Stop Row</button>
-
-  <table>
-    <tr><th>Notes / Approvals</th></tr>
-    <tr><td><textarea rows="4" placeholder="Big paragraph size text field..."></textarea></td></tr>
-  </table>
-
-  <h3>Crew Drop Section</h3>
-  <table>
-    <tr><th>Drop Crew Time</th><th>Drop Crew Odo</th></tr>
-    <tr>
-      <td><input type="text"></td>
-      <td><input type="text"></td>
-    </tr>
-    <tr><th>Total Wait</th><th>Total Miles</th></tr>
-    <tr>
-      <td><input type="text"></td>
-      <td><input type="text"></td>
-    </tr>
-  </table>
-
-  <h3>End Of Shift Section</h3>
-  <table>
-    <tr><th>Van PU Time</th><th>Van PU Odo</th></tr>
-    <tr>
-      <td><input type="text"></td>
-      <td><input type="text"></td>
-    </tr>
-    <tr><th>Van DO Time</th><th>Van DO Odo</th></tr>
-    <tr>
-      <td><input type="text"></td>
-      <td><input type="text"></td>
-    </tr>
-  </table>
-
-  <script>
-    function addStopRow() {
-      const table = document.getElementById('stops-table');
-      const row = table.insertRow(-1);
-      for (let i = 0; i < 5; i++) {
-        const cell = row.insertCell(i);
-        cell.innerHTML = '<input type="text">';
-      }
-    }
-  </script>
-
-</body>
-</html>
+      color
