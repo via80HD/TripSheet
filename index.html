@@ -69,18 +69,24 @@
       <h2>Trip Details</h2>
       <table>
         <tr><th>Trip Date</th><td><input type="date"></td></tr>
-        <tr><th>Trip ID</th><td><input type="text"></td></tr>
+        <tr><th>Trip Type</th><td><input type="text"></td></tr>
         <tr><th>Van ID</th><td><input type="text"></td></tr>
+        <!-- add new table -->
         <tr><th>RR #</th><td><input type="text"></td></tr>
-        <tr><th>Dispatcher</th><td><input type="text"></td></tr>
+        <tr><th>Halcon #</th><td><input type="text"></td></tr>
+        <!-- add new table -->
+        <tr><th>Crew Name(s)</th><td><input type="date"></td></tr>
+        <tr><th>Location</th><td><input type="date"></td></tr>
+        <tr><th>Disp. #</th><td><input type="text"></td></tr>
       </table>
     </div>
 
     <div class="section">
       <h2>Stops with Crew</h2>
+      <!-- if possible, add button for add new row? -->
       <table>
         <tr>
-          <th>Time</th><th>Location</th><th>Loc. Code</th><th>Loc. ID</th><th>Van Type</th><th># PAX</th>
+          <th>Stop #</th><th>Time</th><th>Location</th><th>Odometer</th><th>Why?</th><th>Minutes</th>
         </tr>
         <tr>
           <td><input type="text"></td><td><input type="text"></td><td><input type="text"></td>
@@ -88,11 +94,6 @@
         </tr>
         <!-- Add more rows as needed -->
       </table>
-    </div>
-
-    <div class="section">
-      <h2>Crew Members</h2>
-      <textarea rows="4" placeholder="List crew members by location..."></textarea>
     </div>
 
     <div class="section">
@@ -104,7 +105,9 @@
       <h2>Drop Crew Info</h2>
       <table>
         <tr><th>Drop Time</th><td><input type="text"></td></tr>
-        <tr><th>Drop Location</th><td><input type="text"></td></tr>
+        <tr><th>Drop Odometer</th><td><input type="text"></td></tr>
+        <tr><th>Total Wait</th><td><input type="text"></td></tr>
+        <tr><th>Total Miles</th><td><input type="text"></td></tr>
       </table>
     </div>
 
@@ -112,7 +115,7 @@
       <h2>End of Shift Stats</h2>
       <table>
         <tr>
-          <th>Van P/U Time</th><th>Van P/U Odometer</th><th>Van Drop Time</th><th>Van Drop Odometer</th><th>Total Miles</th>
+          <th>Van P/U Time</th><th>Van P/U Odometer</th><th>Van Drop Time</th><th>Van Drop Odometer</th>
         </tr>
         <tr>
           <td><input type="text"></td><td><input type="number"></td>
