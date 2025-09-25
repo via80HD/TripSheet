@@ -201,32 +201,38 @@
     link.click();
   }
 
-  function loadFromJSON() {
+ function loadFromJSON() {
   const fileInput = document.getElementById('jsonLoader');
   const file = fileInput.files[0];
   if (!file) return;
+
   const reader = new FileReader();
   reader.onload = function(e) {
     const data = JSON.parse(e.target.result);
 
-    // Step 1: auto-create stop rows if needed
-    const stopKeys = Object.keys(data).filter(k => k.startsWith("stop"));
-    const maxStop = Math.max(...stopKeys.map(k => parseInt(k.match(/\d+/)?.[0] || 1)));
-    const table = document.getElementById('stops-table');
-    while (table.rows.length - 1 < maxStop) { // -1 because header row
+    // Count how many stop rows are needed
+    const stopKeys = Object.keys(data).filter(key => key.startsWith('stop'));
+    const stopNumbers = [...new Set(stopKeys.map(k => k.match(/^stop(\d+)/)?.[1]))];
+    const currentRows = document.querySelectorAll('#stops-table tr').length - 1;
+    const neededRows = Math.max(...stopNumbers.map(n => parseInt(n)));
+
+    // Add missing stop rows
+    for (let i = currentRows; i < neededRows; i++) {
       addStopRow();
     }
 
-    // Step 2: set all field values
+    // Fill in all fields
     for (const key in data) {
       const el = document.querySelector(`[name="${key}"]`);
       if (el) {
         el.value = data[key];
+        el.dispatchEvent(new Event('input'));
       }
     }
   };
+
   reader.readAsText(file);
-}
+ }
 </script>
 
 </body>
