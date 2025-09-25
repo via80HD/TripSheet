@@ -26,6 +26,10 @@
       text-align: center;
       font-size: 16px;
     }
+    th {
+      background-color: #2c6e63;
+      color: #fff;
+    }
     input, textarea {
       width: 100%;
       font-family: inherit;
@@ -63,10 +67,6 @@
       font-size: 18px;
       margin-top: 30px;
     }
-    th {
-  background-color: #2c6e63;
-  color: #fff;
-    }
   </style>
 </head>
 <body>
@@ -74,32 +74,32 @@
 <div id="report">
   <table>
     <tr><th>Driver Name</th></tr>
-    <tr><td><input type="text"></td></tr>
+    <tr><td><input name="driverName" type="text"></td></tr>
   </table>
 
   <table>
     <tr><th>Trip Date</th><th>Trip Type</th><th>Van ID</th></tr>
     <tr>
-      <td><input type="date"></td>
-      <td><input type="text"></td>
-      <td><input type="text"></td>
+      <td><input name="tripDate" type="date"></td>
+      <td><input name="tripType" type="text"></td>
+      <td><input name="vanId" type="text"></td>
     </tr>
   </table>
 
   <table>
     <tr><th>RR #</th><th>Hallcon #</th></tr>
     <tr>
-      <td><input type="text"></td>
-      <td><input type="text"></td>
+      <td><input name="rrNumber" type="text"></td>
+      <td><input name="hallconNumber" type="text"></td>
     </tr>
   </table>
 
   <table>
     <tr><th>Name(s)</th><th>To?</th><th>Disp #</th></tr>
     <tr>
-      <td><input type="text"></td>
-      <td><input type="text"></td>
-      <td><input type="text"></td>
+      <td><input name="crewNames" type="text"></td>
+      <td><input name="destination" type="text"></td>
+      <td><input name="dispatchNumber" type="text"></td>
     </tr>
   </table>
 
@@ -109,31 +109,31 @@
   <table id="stops-table">
     <tr><th>Times</th><th>Location</th><th>Odometer</th><th>Why?</th><th>Wait</th></tr>
     <tr>
-      <td><input type="text" style="min-width: 90px;" placeholder="0800–0845"></td>
-      <td><input type="text" style="min-width: 150px;" placeholder="THE CROSSING"></td>
-      <td><input type="text" style="min-width: 70px;" placeholder="123456"></td>
-      <td><input type="text" style="min-width: 50px;" placeholder="FL"></td>
-      <td><input type="text" style="min-width: 50px;" placeholder="6"></td>
+      <td><input name="stop1Time" type="text" style="min-width: 90px;" placeholder="0800–0845"></td>
+      <td><input name="stop1Location" type="text" style="min-width: 150px;" placeholder="THE CROSSING"></td>
+      <td><input name="stop1Odometer" type="text" style="min-width: 70px;" placeholder="123456"></td>
+      <td><input name="stop1Why" type="text" style="min-width: 50px;" placeholder="FL"></td>
+      <td><input name="stop1Wait" type="text" style="min-width: 50px;" placeholder="6"></td>
     </tr>
   </table>
   <button onclick="addStopRow()">Add Stop Row</button>
 
   <table>
     <tr><th>Notes / Approvals</th></tr>
-    <tr><td><textarea rows="4" placeholder="Big paragraph size text field..."></textarea></td></tr>
+    <tr><td><textarea name="notes" rows="4" placeholder="Big paragraph size text field..."></textarea></td></tr>
   </table>
 
   <h3>Crew Drop Section</h3>
   <table>
     <tr><th>Drop Crew Time</th><th>Drop Crew Odo</th></tr>
     <tr>
-      <td><input type="text"></td>
-      <td><input type="text"></td>
+      <td><input name="dropCrewTime" type="text"></td>
+      <td><input name="dropCrewOdo" type="text"></td>
     </tr>
     <tr><th>Total Wait</th><th>Total Miles</th></tr>
     <tr>
-      <td><input type="text"></td>
-      <td><input type="text"></td>
+      <td><input name="totalWait" type="text"></td>
+      <td><input name="totalMiles" type="text"></td>
     </tr>
   </table>
 
@@ -141,30 +141,35 @@
   <table>
     <tr><th>Van PU Time</th><th>Van PU Odo</th></tr>
     <tr>
-      <td><input type="text"></td>
-      <td><input type="text"></td>
+      <td><input name="vanPUTime" type="text"></td>
+      <td><input name="vanPUOdo" type="text"></td>
     </tr>
     <tr><th>Van DO Time</th><th>Van DO Odo</th></tr>
     <tr>
-      <td><input type="text"></td>
-      <td><input type="text"></td>
+      <td><input name="vanDOTime" type="text"></td>
+      <td><input name="vanDOOdo" type="text"></td>
     </tr>
   </table>
 </div>
 
 <div style="text-align:center;">
   <button onclick="saveAsImage()">Save as Image</button>
+  <button onclick="saveAsJSON()">Save as JSON</button>
+  <input type="file" id="jsonLoader" accept=".json" onchange="loadFromJSON()" style="display:none;">
+  <button onclick="document.getElementById('jsonLoader').click()">Load JSON</button>
 </div>
 
 <script>
   function addStopRow() {
     const table = document.getElementById('stops-table');
+    const rowCount = table.rows.length;
     const row = table.insertRow(-1);
     const widths = [90, 150, 70, 50, 50];
     const placeholders = ["0800–0845", "THE CROSSING", "123456", "FL", "6"];
+    const names = ["Time", "Location", "Odometer", "Why", "Wait"];
     for (let i = 0; i < 5; i++) {
       const cell = row.insertCell(i);
-      cell.innerHTML = `<input type="text" style="min-width:${widths[i]}px;" placeholder="${placeholders[i]}">`;
+      cell.innerHTML = `<input name="stop${rowCount}${names[i]}" type="text" style="min-width:${widths[i]}px;" placeholder="${placeholders[i]}">`;
     }
   }
 
@@ -176,6 +181,34 @@
       link.href = canvas.toDataURL();
       link.click();
     });
+  }
+
+  function saveAsJSON() {
+    const inputs = document.querySelectorAll('input, textarea');
+    const data = {};
+    inputs.forEach(el => {
+      if (el.name) data[el.name] = el.value;
+    });
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const link = document.createElement('a');
+    link.download = 'trip-report.json';
+    link.href = URL.createObjectURL(blob);
+    link.click();
+  }
+
+  function loadFromJSON() {
+    const fileInput = document.getElementById('jsonLoader');
+    const file = fileInput.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const data = JSON.parse(e.target.result);
+      for (const key in data) {
+        const el = document.querySelector(`[name="${key}"]`);
+        if (el) el.value = data[key];
+      }
+    };
+    reader.readAsText(file);
   }
 </script>
 
