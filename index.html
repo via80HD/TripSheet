@@ -174,15 +174,17 @@
   }
 
   function saveAsImage() {
-    const element = document.getElementById('report');
-    html2canvas(element, { scale: 2 }).then(canvas => {
-      const link = document.createElement('a');
-      link.download = 'trip-report.png';
-      link.href = canvas.toDataURL();
-      link.click();
-    });
-  }
-
+  document.querySelectorAll('input, textarea').forEach(el => {
+    el.value = el.value.toUpperCase();
+  });
+  const element = document.getElementById('report');
+  html2canvas(element, { scale: 2 }).then(canvas => {
+    const link = document.createElement('a');
+    link.download = 'trip-report.png';
+    link.href = canvas.toDataURL();
+    link.click();
+  });
+}
   function saveAsJSON() {
     const inputs = document.querySelectorAll('input, textarea');
     const data = {};
