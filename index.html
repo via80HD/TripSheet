@@ -202,19 +202,22 @@
   }
 
   function loadFromJSON() {
-    const fileInput = document.getElementById('jsonLoader');
-    const file = fileInput.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      const data = JSON.parse(e.target.result);
-      for (const key in data) {
-        const el = document.querySelector(`[name="${key}"]`);
-        if (el) el.value = data[key];
+  const fileInput = document.getElementById('jsonLoader');
+  const file = fileInput.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const data = JSON.parse(e.target.result);
+    for (const key in data) {
+      const el = document.querySelector(`[name="${key}"]`);
+      if (el) {
+        el.value = data[key];
+        el.dispatchEvent(new Event('input')); // 👈 Forces visual refresh
       }
-    };
-    reader.readAsText(file);
-  }
+    }
+  };
+  reader.readAsText(file);
+}
 </script>
 
 </body>
